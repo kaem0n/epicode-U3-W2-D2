@@ -122,7 +122,7 @@ const AllTheBooks = () => {
                   Area commenti -{' '}
                   <span className="fst-italic">{bookSelected.title}</span>
                 </h4>
-                <SideCommentArea bookSelected={bookSelected} />
+                <SideCommentArea bookSelected={bookSelected.asin} />
               </>
             ) : (
               <h3 className="text-center">Nessun libro selezionato</h3>

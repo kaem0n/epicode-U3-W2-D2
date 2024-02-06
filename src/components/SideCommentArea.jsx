@@ -15,8 +15,10 @@ const SideCommentArea = ({ bookSelected }) => {
   const [isError, setIsError] = useState(false)
   const [error, setError] = useState('')
   const [counter, setCounter] = useState(30)
+  const [timer, setTimer] = useState(null)
 
   const getComments = (asin) => {
+    console.log('GETCOMMENTS!')
     setIsLoading(true)
     setCounter(30)
     fetch('https://striveschool-api.herokuapp.com/api/comments/' + asin, {
@@ -53,7 +55,7 @@ const SideCommentArea = ({ bookSelected }) => {
     })
       .then((res) => {
         if (res.ok) {
-          getComments(bookSelected.asin)
+          getComments(bookSelected)
         } else {
           throw new Error(res.status)
         }
@@ -76,14 +78,14 @@ const SideCommentArea = ({ bookSelected }) => {
       body: JSON.stringify({
         comment: comment,
         rate: rate,
-        elementId: bookSelected.asin,
+        elementId: bookSelected,
       }),
     })
       .then((res) => {
         if (res.ok) {
           setComment('')
           setRate('1')
-          getComments(bookSelected.asin)
+          getComments(bookSelected)
         } else {
           throw new Error(res.status)
         }
@@ -104,32 +106,23 @@ const SideCommentArea = ({ bookSelected }) => {
     return iconContainer
   }
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setCounter(counter - 1)
-  //     console.log(counter)
-  //     if (counter === 0) {
-  //       getComments(bookSelected.asin)
-  //     }
-  //   }, 1000)
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [counter])
-
   useEffect(() => {
-    setInterval(() => {
-      setCounter((value) => {
-        if (value === 0) {
-          getComments(bookSelected.asin)
-        }
-        console.log(value)
-        console.log(bookSelected.asin)
-        return value - 1
-      })
-    }, 1000)
+    getComments(bookSelected)
+    clearInterval(timer)
+    setTimer(
+      setInterval(() => {
+        setCounter((value) => {
+          if (value === 0) {
+            getComments(bookSelected)
+          }
+          console.log(value)
+          console.log(bookSelected)
+          return value - 1
+        })
+      }, 1000)
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => getComments(bookSelected.asin), [bookSelected])
+  }, [bookSelected])
 
   return (
     <>
@@ -169,10 +162,7 @@ const SideCommentArea = ({ bookSelected }) => {
             )}
           </div>
           <div className="text-center mb-5">
-            <Button
-              variant="dark"
-              onClick={() => getComments(bookSelected.asin)}
-            >
+            <Button variant="dark" onClick={() => getComments(bookSelected)}>
               AGGIORNA
             </Button>
             <p className="mt-2 text-secondary">
