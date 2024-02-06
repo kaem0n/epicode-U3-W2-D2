@@ -18,7 +18,6 @@ const SideCommentArea = ({ bookSelected }) => {
   const [timer, setTimer] = useState(null)
 
   const getComments = (asin) => {
-    console.log('GETCOMMENTS!')
     setIsLoading(true)
     setCounter(30)
     fetch('https://striveschool-api.herokuapp.com/api/comments/' + asin, {
@@ -115,8 +114,6 @@ const SideCommentArea = ({ bookSelected }) => {
           if (value === 0) {
             getComments(bookSelected)
           }
-          console.log(value)
-          console.log(bookSelected)
           return value - 1
         })
       }, 1000)
