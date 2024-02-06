@@ -131,9 +131,7 @@ const SideCommentArea = ({ bookSelected }) => {
   }, [])
 
   useEffect(() => {
-    if (bookSelected) {
-      getComments(bookSelected.asin)
-    }
+    getComments(bookSelected.asin)
   }, [bookSelected])
 
   return (
