@@ -130,9 +130,7 @@ const SideCommentArea = ({ bookSelected }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    getComments(bookSelected.asin)
-  }, [bookSelected])
+  useEffect(() => getComments(bookSelected.asin), [bookSelected])
 
   return (
     <>
