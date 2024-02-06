@@ -7,7 +7,7 @@ import Spinner from 'react-bootstrap/Spinner'
 const API_KEY =
   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWFhNTMwNDE4N2U1YzAwMTgxNGM2OWUiLCJpYXQiOjE3MDY3OTUzMjksImV4cCI6MTcwODAwNDkyOX0.z776mNx_nkW-OchLZgq0pX1G0Fvqfzy-JBFhRt38tac'
 
-const SideCommentArea = (props) => {
+const SideCommentArea = ({ bookSelected }) => {
   const [comments, setComments] = useState([])
   const [comment, setComment] = useState('')
   const [rate, setRate] = useState('1')
@@ -53,7 +53,7 @@ const SideCommentArea = (props) => {
     })
       .then((res) => {
         if (res.ok) {
-          getComments(props.bookSelected.asin)
+          getComments(bookSelected.asin)
         } else {
           throw new Error(res.status)
         }
@@ -76,14 +76,14 @@ const SideCommentArea = (props) => {
       body: JSON.stringify({
         comment: comment,
         rate: rate,
-        elementId: props.bookSelected.asin,
+        elementId: bookSelected.asin,
       }),
     })
       .then((res) => {
         if (res.ok) {
           setComment('')
           setRate('1')
-          getComments(props.bookSelected.asin)
+          getComments(bookSelected.asin)
         } else {
           throw new Error(res.status)
         }
@@ -109,7 +109,7 @@ const SideCommentArea = (props) => {
   //     setCounter(counter - 1)
   //     console.log(counter)
   //     if (counter === 0) {
-  //       getComments(props.bookSelected.asin)
+  //       getComments(bookSelected.asin)
   //     }
   //   }, 1000)
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,10 +119,11 @@ const SideCommentArea = (props) => {
     setInterval(() => {
       setCounter((value) => {
         if (value === 0) {
-          getComments(props.bookSelected.asin)
+          getComments(bookSelected.asin)
+          clearInterval()
         }
         console.log(value)
-        console.log(props.bookSelected.asin)
+        console.log(bookSelected.asin)
         return value - 1
       })
     }, 1000)
@@ -130,14 +131,14 @@ const SideCommentArea = (props) => {
   }, [])
 
   useEffect(() => {
-    if (props.bookSelected) {
-      getComments(props.bookSelected.asin)
+    if (bookSelected) {
+      getComments(bookSelected.asin)
     }
-  }, [props.bookSelected])
+  }, [bookSelected])
 
   return (
     <>
-      {props.bookSelected && (
+      {bookSelected && (
         <Col className="my-3">
           <div className="mb-4">
             {isLoading && (
@@ -175,7 +176,7 @@ const SideCommentArea = (props) => {
           <div className="text-center mb-5">
             <Button
               variant="dark"
-              onClick={() => getComments(props.bookSelected.asin)}
+              onClick={() => getComments(bookSelected.asin)}
             >
               AGGIORNA
             </Button>
