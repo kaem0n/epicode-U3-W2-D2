@@ -98,8 +98,8 @@ const SideCommentArea = ({ bookSelected }) => {
 
   const printStars = (n) => {
     const iconContainer = []
-    const icon = <i className="bi bi-star-fill text-warning"></i>
     for (let i = 0; i < n; i++) {
+      const icon = <i key={i} className="bi bi-star-fill text-warning"></i>
       iconContainer.push(icon)
     }
     return iconContainer
