@@ -120,7 +120,6 @@ const SideCommentArea = ({ bookSelected }) => {
       setCounter((value) => {
         if (value === 0) {
           getComments(bookSelected.asin)
-          clearInterval()
         }
         console.log(value)
         console.log(bookSelected.asin)
